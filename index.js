@@ -11,7 +11,7 @@ require("dotenv").config()
 
 const main = async () => {
     const DB_URL = process.env.DB_URL
-    const PORT = process.env.APP_PORT || 8080
+    const PORT = process.env.APP_PORT || 5000
 
     const app = express()
 
