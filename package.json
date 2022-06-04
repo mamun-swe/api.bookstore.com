@@ -1,0 +1,40 @@
+{
+  "name": "api.bookstore.com",
+  "version": "1.0.0",
+  "description": "Book store backend application.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mamun-swe/api.bookstore.com.git"
+  },
+  "keywords": [
+    "Express",
+    "GraphQL",
+    "MongoDB"
+  ],
+  "author": "Abdullah Al Mamun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mamun-swe/api.bookstore.com/issues"
+  },
+  "homepage": "https://github.com/Mamun-swe/api.bookstore.com#readme",
+  "dependencies": {
+    "apollo-server-core": "^3.8.2",
+    "apollo-server-express": "^3.8.2",
+    "compression": "^1.7.4",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "graphql": "^16.5.0",
+    "helmet": "^5.1.0",
+    "mongoose": "^6.3.5",
+    "nocache": "^3.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
