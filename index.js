@@ -11,8 +11,7 @@ require("dotenv").config()
 
 const main = async () => {
     const DB_URL = process.env.DB_URL
-    const PORT = process.env.APP_PORT || 5001
-    const host = '0.0.0.0'
+    const PORT = process.env.PORT || 4001
 
     const app = express()
 
@@ -47,8 +46,8 @@ const main = async () => {
         })
 
 
-    app.listen(PORT, host, () => {
-        console.log(`App running.`)
+    app.listen(PORT, () => {
+        console.log(`App running on ${PORT}.`)
     })
 }
 
