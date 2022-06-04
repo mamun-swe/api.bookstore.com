@@ -1,17 +1,10 @@
 
 
 const express = require("express")
-const helmet = require("helmet")
-const nocache = require("nocache")
 const mongoose = require("mongoose")
-const compression = require("compression")
-const cluster = require("cluster")
-const process = require("process")
-const { cpus } = require("os")
-const { buildSchema } = require("graphql")
 const { ApolloServer } = require("apollo-server-express")
 const { ApolloServerPluginLandingPageGraphQLPlayground } = require("apollo-server-core")
-const { typeDefs } = require("./src/typeDefs")
+const { typeDefs } = require("./src/schema")
 const { resolvers } = require("./src/resolvers")
 
 require("dotenv").config()
@@ -21,9 +14,6 @@ const main = async () => {
     const PORT = process.env.APP_PORT
 
     const app = express()
-    app.use(compression())
-    app.use(nocache())
-    app.use(helmet())
 
     const apolloServer = new ApolloServer({
         typeDefs,
