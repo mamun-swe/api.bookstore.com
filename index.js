@@ -11,7 +11,7 @@ require("dotenv").config()
 
 const main = async () => {
     const DB_URL = process.env.DB_URL
-    const PORT = process.env.APP_PORT
+    const PORT = process.env.APP_PORT || 4001
 
     const app = express()
 
@@ -46,7 +46,7 @@ const main = async () => {
         })
 
 
-    app.listen(PORT || 4000, () => {
+    app.listen(PORT, () => {
         console.log(`App running on ${PORT} port`)
     })
 }
