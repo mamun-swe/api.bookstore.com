@@ -24,7 +24,8 @@ const main = async () => {
                 message: err.originalError?.message || err.message,
                 code: err.originalError?.code || 400
             })
-        }
+        },
+        introspection: true
     })
 
     await apolloServer.start()
