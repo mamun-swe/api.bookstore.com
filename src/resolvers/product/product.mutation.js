@@ -10,10 +10,14 @@ const storeProduct = async (parent, args, context, info) => {
     const { inputData } = args
     const { name } = inputData
 
-    pubsub.publish('NEW_PRODUCT', { productCreated: args })
+    // pubsub.publish('NEW_PRODUCT', { productCreated: args })
+
 
     const newProduct = new Product({ name })
+    pubsub.publish('NEW_PRODUCT', { productCreated: newProduct })
+
     const result = await newProduct.save()
+    // pubsub.publish('NEW_PRODUCT', { productCreated: newProduct });
 
     return result
 }

@@ -11,8 +11,7 @@ const resolvers = {
     Subscription: {
         // ...subscriptions
         productCreated: {
-            resolve: (payload) => payload.productCreated,
-            subscribe: () => pubsub.asyncIterator("NEW_PRODUCT")
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator("NEW_PRODUCT")
         },
     }
 };
