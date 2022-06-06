@@ -51,6 +51,10 @@ const product = buildSchema(`
         storeProduct(inputData: InsertProduct):Product
         destroyProduct(inputData: DestroyProduct):DeleteResponse
     }
+
+    type Subscription {
+      productCreated: Product
+    }
 `)
 
 module.exports = { product }
