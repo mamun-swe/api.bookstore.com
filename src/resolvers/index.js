@@ -9,10 +9,7 @@ const resolvers = {
         ...queries
     },
     Subscription: {
-        // ...subscriptions
-        productCreated: {
-            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator("NEW_PRODUCT")
-        },
+        ...subscriptions
     }
 };
 

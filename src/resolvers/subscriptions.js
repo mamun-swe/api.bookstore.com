@@ -2,5 +2,5 @@
 const productSubscriptions = require("./product/product.subscription")
 
 module.exports = {
-    ...productSubscriptions
+    ...productSubscriptions.product
 }

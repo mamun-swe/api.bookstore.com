@@ -1,43 +1,47 @@
 
-const { PubSub } = require("graphql-subscriptions")
 const Product = require("../../models/product.model")
+const { SUBCRIPTION_TYPES } = require("../../types")
 const { isMongooseId } = require("../../middleware/mongooseId.middleware")
 
-const pubsub = new PubSub()
-
 /* Store new resource */
-const storeProduct = async (parent, args, context, info) => {
-    const { inputData } = args
+const storeProduct = async (_, { inputData }, { pubsub }) => {
     const { name } = inputData
 
-    // pubsub.publish('NEW_PRODUCT', { productCreated: args })
-
-
     const newProduct = new Product({ name })
-    pubsub.publish('NEW_PRODUCT', { productCreated: newProduct })
-
     const result = await newProduct.save()
-    // pubsub.publish('NEW_PRODUCT', { productCreated: newProduct });
+
+    pubsub.publish(SUBCRIPTION_TYPES.NEW_PRODUCT, { productCreated: newProduct })
 
     return result
 }
 
 /* Destroy specific resource */
-const destroyProduct = async (parent, args, context, info) => {
-    const { inputData = {} } = args
+const destroyProduct = async (_, { inputData }, { pubsub }) => {
     const { id } = inputData
 
     await isMongooseId(id)
 
-    const isDestroyed = await Product.findByIdAndDelete(id)
-    if (isDestroyed) {
+    const destroyedProduct = await Product.findByIdAndDelete(id)
+
+    if (!destroyedProduct) {
         return {
-            status: true,
-            message: "Product deleted."
+            status: false,
+            message: "Product not available."
         }
     }
-}
 
+    pubsub.publish(
+        SUBCRIPTION_TYPES.NEW_PRODUCT,
+        {
+            productCreated: destroyedProduct
+        }
+    )
+
+    return {
+        status: true,
+        message: "Product deleted."
+    }
+}
 
 module.exports = {
     storeProduct,

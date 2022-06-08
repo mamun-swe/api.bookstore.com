@@ -1,16 +1,13 @@
 
 const express = require("express")
-const mongoose = require("mongoose")
 const http = require('http')
+const mongoose = require("mongoose")
+const { execute, subscribe } = require('graphql')
 const { PubSub } = require('graphql-subscriptions')
 const { ApolloServer } = require("apollo-server-express")
-const { SubscriptionServer } = require('subscriptions-transport-ws')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
-const { execute, subscribe } = require('graphql')
-const {
-    ApolloServerPluginDrainHttpServer,
-    ApolloServerPluginLandingPageGraphQLPlayground
-} = require("apollo-server-core")
+const { SubscriptionServer } = require('subscriptions-transport-ws')
+const { ApolloServerPluginLandingPageGraphQLPlayground } = require("apollo-server-core")
 const { typeDefs } = require("./src/schema")
 const { resolvers } = require("./src/resolvers")
 
@@ -32,7 +29,7 @@ const main = async () => {
     const server = new ApolloServer({
         schema,
         context: ({ req, res }) => ({ req, res, pubsub }),
-        plugins: [ApolloServerPluginDrainHttpServer({ httpServer }), {
+        plugins: [ApolloServerPluginLandingPageGraphQLPlayground({ httpServer }), {
             async serverWillStart() {
                 return {
                     async drainServer() {
@@ -69,26 +66,8 @@ const main = async () => {
     server.applyMiddleware({ app })
 
     httpServer.listen({ port: PORT }, () => {
-        console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+        console.log(`🚀 graphQL server running at http://localhost:${PORT}${server.graphqlPath}`)
     })
-
-    // const apolloServer = new ApolloServer({
-    //     typeDefs,
-    //     resolvers,
-    //     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-    //     formatError: (err) => {
-    //         return ({
-    //             message: err.originalError?.message || err.message,
-    //             code: err.originalError?.code || 400
-    //         })
-    //     },
-    //     introspection: true
-    // })
-
-    // await apolloServer.start()
-    // apolloServer.applyMiddleware({ app: app })
-
-
 
     /* Create database connection */
     mongoose.connect(DB_URL, {
@@ -100,11 +79,6 @@ const main = async () => {
         .catch(error => {
             if (error) console.log("Failed to connect database ")
         })
-
-
-    // app.listen(PORT, () => {
-    //     console.log(`App running on ${PORT}.`)
-    // })
 }
 
 main()

@@ -1,13 +1,11 @@
+const { SUBCRIPTION_TYPES } = require("../../types")
 
-
-
-const newProduct = {
+const product = {
     productCreated: {
-        resolve: (payload) => payload.productCreated,
-        subscribe: () => pubsub.asyncIterator("NEW_PRODUCT")
+        subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(SUBCRIPTION_TYPES.NEW_PRODUCT)
     }
 }
 
 module.exports = {
-    newProduct
+    product
 }
