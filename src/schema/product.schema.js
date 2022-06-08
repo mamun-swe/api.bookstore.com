@@ -25,6 +25,11 @@ const product = buildSchema(`
         message: String
     }
 
+    type SubscriptionResponse {
+        mutation: String,
+        node: Product
+    }
+
     input InsertProduct {
         name: String
     }
@@ -53,7 +58,7 @@ const product = buildSchema(`
     }
 
     type Subscription {
-      productCreated: Product
+      product: SubscriptionResponse
     }
 `)
 

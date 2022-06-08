@@ -10,7 +10,16 @@ const storeProduct = async (_, { inputData }, { pubsub }) => {
     const newProduct = new Product({ name })
     const result = await newProduct.save()
 
-    pubsub.publish(SUBCRIPTION_TYPES.NEW_PRODUCT, { productCreated: newProduct })
+    pubsub.publish(
+        SUBCRIPTION_TYPES.NEW_PRODUCT,
+        {
+            product: {
+                mutation: 'CREATED',
+                node: {
+                    ...result._doc
+                }
+            }
+        })
 
     return result
 }
@@ -33,7 +42,12 @@ const destroyProduct = async (_, { inputData }, { pubsub }) => {
     pubsub.publish(
         SUBCRIPTION_TYPES.NEW_PRODUCT,
         {
-            productCreated: destroyedProduct
+            product: {
+                mutation: 'DELETED',
+                node: {
+                    ...destroyedProduct._doc
+                }
+            }
         }
     )
 
