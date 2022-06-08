@@ -37,7 +37,14 @@ const main = async () => {
                     }
                 }
             }
-        }]
+        }],
+        formatError: (err) => {
+            return ({
+                message: err.originalError?.message || err.message,
+                code: err.originalError?.code || 400
+            })
+        },
+        introspection: true
     })
 
     const subscriptionServer = SubscriptionServer.create({
